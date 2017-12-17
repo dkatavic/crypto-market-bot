@@ -1,4 +1,4 @@
-const getTicker = require('./getTicker')
+const { memoized: getTicker } = require('./getTicker')
 const delay = require('delay')
 
 const timeout = 1000

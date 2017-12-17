@@ -5,12 +5,16 @@ const currencies = ['usd']
 
 const all = [
   "btcusd",
+  "btceur",
+
+  // too small variance
   // "ltcusd",
   // "ltcbtc",
   // "ethusd",
   // "ethbtc",
   // "etcbtc",
   // "etcusd",
+
   "rrtusd",
   "rrtbtc",
   "zecusd",
@@ -20,13 +24,15 @@ const all = [
   "dshusd",
   "dshbtc",
 
+  // too small variance
+  // "xrpusd",
+  // "xrpbtc",
 
-  "btceur",
-  "xrpusd",
-  "xrpbtc",
-  "iotusd",
-  "iotbtc",
-  "ioteth",
+  // too small variance
+  // "iotusd",
+  // "iotbtc",
+  // "ioteth",
+
   "eosusd",
   "eosbtc",
   "eoseth",

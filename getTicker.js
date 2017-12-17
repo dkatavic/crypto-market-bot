@@ -25,4 +25,7 @@ const main2 = async (symbol) => {
   return data
 }
 
-module.exports = memoize(main2, { promise: true, maxAge: 30000 })
+module.exports = {
+  live: main2,
+  memoized: memoize(main2, { promise: true, maxAge: 30000 })
+}
