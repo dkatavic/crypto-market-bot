@@ -19,9 +19,13 @@ const main = async () => {
     console.log(`${_.reverse(path)} : ${diff.fromJump}%`)
     if (diff.fromMain > 1) {
       console.log(chalk.green.bold(`${path} is PROFITABLE: ${diff.fromMain}`))
+    } else if (diff.fromMain > 0.2) {
+      console.log(chalk.yellow.bold(`${path} is Prof for big ones: ${diff.fromMain}`))
     }
     if (diff.fromJump > 1) {
       console.log(chalk.green.bold(`${_.reverse(path)} is PROFITABLE: ${diff.fromJump}`))
+    } else if (diff.fromJump > 0.2) {
+      console.log(chalk.yellow.bold(`${_.reverse(path)} is Prof for big ones: ${diff.fromJump}`))
     }
     await delay(1000)
   }
