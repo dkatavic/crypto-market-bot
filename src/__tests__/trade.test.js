@@ -78,6 +78,11 @@ test('should check is there a probitable trade', async () => {
         },
       ],
     },
+    orderBookSymbols: {
+      'iotbtc': iotBtcFixtures,
+      'iotusd': iotUsdFixtures,
+      'btcusd': btcUsdFixtures,
+    },
   }
 
   const result = await simulate(testSymbols)

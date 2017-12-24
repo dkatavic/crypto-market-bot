@@ -29,6 +29,7 @@ const simulateTrade = async (symbols) => {
   return {
     fiatMainSideFiat: simulateFiatMainSideFiatTrade({ symbols, orderBooks: orderBookSymbols }),
     fiatSideMainFiat: simulateFiatSideMainFiatTrade({ symbols, orderBooks: orderBookSymbols }),
+    orderBookSymbols,
   }
 }
 
