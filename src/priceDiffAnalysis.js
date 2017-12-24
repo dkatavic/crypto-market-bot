@@ -34,7 +34,10 @@ const iterateeOverSymbolPaths = async (symbolPaths) => {
       console.log(fiatMainSideFiat)
       console.log(fiatSideMainFiat)
       state.push(mergeIfProfitable(fiatMainSideFiat, orderBookSymbols), mergeIfProfitable(fiatSideMainFiat, orderBookSymbols))
-      fs.writeFileSync(stateFile, JSON.stringify(state, null, 2))
+      // write to file once per minute
+      if (i % 6 === 0) {
+        fs.writeFileSync(stateFile, JSON.stringify(state, null, 2))
+      }
       // wait for 10s before next call. RATE_LIMIT is [10, 60] depending on load
       await delay(10 * 1000)
     } catch (e) {
