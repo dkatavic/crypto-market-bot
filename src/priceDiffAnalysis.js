@@ -14,16 +14,18 @@ try {
   console.error(e)
 }
 
+const merge = (...objects) => Object.assign({}, ...objects)
+
 const iterateeOverSymbolPaths = async (symbolPaths) => {
   const state = startingState || []
   let i = 0
   do {
     try {
       console.log(`Getting ${symbolPaths[i]} symbols`)
-      const { fiatMainSideFiat, fiatSideMainFiat } = await simulateTrade(symbolPaths[i])
+      const { fiatMainSideFiat, fiatSideMainFiat, orderBookSymbols } = await simulateTrade(symbolPaths[i])
       console.log(fiatMainSideFiat)
       console.log(fiatSideMainFiat)
-      state.push(fiatMainSideFiat, fiatSideMainFiat)
+      state.push(merge(fiatMainSideFiat, orderBookSymbols), merge(fiatSideMainFiat, orderBookSymbols))
       fs.writeFileSync(stateFile, JSON.stringify(state, null, 2))
       // wait for 10s before next call. RATE_LIMIT is [10, 60] depending on load
       await delay(10 * 1000)
