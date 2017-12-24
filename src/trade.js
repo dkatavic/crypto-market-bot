@@ -25,9 +25,16 @@ const simulateTrade = async (symbols) => {
   const orderBookSymbols = Object.assign({}, ...orderBookSymbolsArr)
   // now when you have the data
   // get conbos. Check Diff and take into account volume
+
+  return {
+    fiatMainSideFiat: simulateFiatMainSideFiatTrade({ symbols, orderBooks: orderBookSymbols }),
+    fiatSideMainFiat: simulateFiatSideMainFiatTrade({ symbols, orderBooks: orderBookSymbols }),
+  }
 }
 
-const simulateFiatMainSideFiatTrade = ({ symbols, orderBooks, fiatBallance }) => {
+const simulateFiatMainSideFiatTrade = ({ symbols, orderBooks,
+  // fiatBallance
+}) => {
   const mainToFiat = getMainToFiatSymbols(symbols)[0]
   const sideToFiat = getSideToFiatSymbols(symbols)[0]
   const sideToMain = getSideToMainSymbols(symbols)[0]
@@ -36,6 +43,7 @@ const simulateFiatMainSideFiatTrade = ({ symbols, orderBooks, fiatBallance }) =>
   const sideToFiatPrice = getPrice(orderBooks[sideToFiat].bids)
   const sideToMainPrice = getPrice(orderBooks[sideToMain].asks)
 
+  // TODO: should calculate profitPerc based on trades. DRY!
   const profitPerc = ((1 / mainToFiatPrice / sideToMainPrice * sideToFiatPrice) - 1) * 100
   const fiat = mainToFiat.substring(3, 6)
 
@@ -60,18 +68,20 @@ const simulateFiatSideMainFiatTrade = ({
   const sideToFiat = getSideToFiatSymbols(symbols)[0]
   const sideToMain = getSideToMainSymbols(symbols)[0]
 
-  const mainToFiatPrice = getPrice(orderBooks[mainToFiat].asks)
-  const sideToFiatPrice = getPrice(orderBooks[sideToFiat].bids)
-  const sideToMainPrice = getPrice(orderBooks[sideToMain].asks)
+  const mainToFiatPrice = getPrice(orderBooks[mainToFiat].bids)
+  const sideToFiatPrice = getPrice(orderBooks[sideToFiat].asks)
+  const sideToMainPrice = getPrice(orderBooks[sideToMain].bids)
 
-  const profitPerc = ((1 / sideToFiatPrice / sideToMainPrice * sideToFiatPrice) - 1) * 100
+  // TODO: should calculate profitPerc based on trades. DRY!
+  const profitPerc = ((1 / sideToFiatPrice * sideToMainPrice * mainToFiatPrice) - 1) * 100
   // const profitPerc = ((1 / mainToFiatPrice / sideToMainPrice * sideToFiatPrice) - 1) * 100
   const fiat = mainToFiat.substring(3, 6)
 
   const trades = [
-    generateTrade(mainToFiatPrice, 'buy', mainToFiat),
-    generateTrade(sideToMainPrice, 'buy', sideToMain),
-    generateTrade(sideToFiatPrice, 'sell', sideToFiat),
+    generateTrade(sideToFiatPrice, 'buy', sideToFiat),
+    generateTrade(sideToMainPrice, 'sell', sideToMain),
+    generateTrade(mainToFiatPrice, 'sell', mainToFiat),
+    //
   ]
   return {
     profitPerc,
@@ -83,4 +93,5 @@ const simulateFiatSideMainFiatTrade = ({
 module.exports = {
   simulate: simulateTrade,
   simulateFiatMainSideFiatTrade,
+  simulateFiatSideMainFiatTrade,
 }

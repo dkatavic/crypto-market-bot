@@ -6,9 +6,9 @@ jest.mock('../bitfinex-api/getOrderBook')
 const btcUsdFixtures = require('./fixtures/orders/btcusd')
 const iotBtcFixtures = require('./fixtures/orders/iotbtc')
 const iotUsdFixtures = require('./fixtures/orders/iotusd')
+const testSymbols = ['iotbtc', 'iotusd', 'btcusd']
 
-test.skip('should check is there a probitable trade', async () => {
-  const symbols = ['iotbtc', 'iotusd', 'btcusd']
+test('should check is there a probitable trade', async () => {
 
   getOrderBook.mockImplementation(async (symbol) => {
     if (symbol === 'btcusd') {
@@ -23,73 +23,73 @@ test.skip('should check is there a probitable trade', async () => {
   })
   const expected = {
     fiatMainSideFiat: {
-      profitPerc: -1,
-      maxProfitFiat: -30,
+      profitPerc: -0.2894688375565835,
+      // maxProfitFiat: -30,
       fiat: 'usd',
       trades: [
         {
           symbol: 'btcusd',
-          amount: 0.1,
+          // amount: 0.1,
           side: 'buy',
           // this is for debugging
-          price: 18000,
+          price: 18810,
         },
         {
           symbol: 'iotbtc',
-          amount: 10,
+          // amount: 10,
           side: 'buy',
           // this is for debugging
-          price: 0.002,
+          price: 0.00019141,
         },
         {
           symbol: 'iotusd',
-          amount: 2,
+          // amount: 2,
           side: 'sell',
           // this is for debugging
-          price: 4,
+          price: 3.59,
         },
       ],
     },
     fiatSideMainFiat: {
-      profitPerc: -1.2,
-      maxProfitFiat: -33,
+      profitPerc: 0.1773694175297713,
+      // maxProfitFiat: -30,
       fiat: 'usd',
       trades: [
         {
           symbol: 'iotusd',
-          amount: 2,
+          // amount: 2,
           side: 'buy',
           // this is for debugging
-          price: 4,
+          price: 3.5916,
         },
         {
           symbol: 'iotbtc',
-          amount: 10,
+          // amount: 10,
           side: 'sell',
           // this is for debugging
-          price: 0.002,
+          price: 0.0001913,
         },
         {
           symbol: 'btcusd',
-          amount: 0.1,
+          // amount: 0.1,
           side: 'sell',
           // this is for debugging
-          price: 18000,
+          price: 18808,
         },
       ],
     },
   }
 
-  const result = await simulate()
+  const result = await simulate(testSymbols)
 
   expect(result).toEqual(expected)
 
-  getOrderBook.clear()
+  getOrderBook.mockReset()
 })
 
 test('Should simulate Fiat-Main-Side-Fiat trade when amount less than ballance', () => {
   const input = {
-    symbols: ['iotbtc', 'iotusd', 'btcusd'],
+    symbols: testSymbols,
     orderBooks: {
       'iotbtc': iotBtcFixtures,
       'iotusd': iotUsdFixtures,
@@ -137,7 +137,7 @@ test('Should simulate Fiat-Main-Side-Fiat trade when amount less than ballance',
 
 test('Should simulate Fiat-Side-Main-Fiat trade when amount less than ballance', () => {
   const input = {
-    symbols: ['iotbtc', 'iotusd', 'btcusd'],
+    symbols: testSymbols,
     orderBooks: {
       'iotbtc': iotBtcFixtures,
       'iotusd': iotUsdFixtures,
@@ -148,8 +148,8 @@ test('Should simulate Fiat-Side-Main-Fiat trade when amount less than ballance',
       'eur': 0,
     },
   }
-  // -0.2894688375565835 = (((1 / 18810) / 0.00019141 * 3.59) - 1) * 100
-  const profitPerc = -0.2894688375565835
+  // 0.1773694175297713 = (((1 / 3.5916) * 0.0001913 * 18808) - 1) * 100
+  const profitPerc = 0.1773694175297713
   const expected = {
     profitPerc,
     // maxProfitFiat: -30,

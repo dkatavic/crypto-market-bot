@@ -27,7 +27,7 @@ const main = async () => {
     } else if (diff.fromJump > 0.2) {
       console.log(chalk.yellow.bold(`${_.reverse(path)} is Prof for big ones: ${diff.fromJump}`))
     }
-    await delay(10000)
+    await delay(11000)
   }
 }
 
