@@ -74,7 +74,7 @@ const all = [
   "qsheth",
   "yywusd",
   "yywbtc",
-  "yyweth"
+  "yyweth",
 ]
 
 module.exports = {
@@ -96,12 +96,12 @@ module.exports = {
           allPaths.push([
             `${tr2}usd`,
             symbol,
-            `${tr1}usd`
+            `${tr1}usd`,
           ])
         })
       })
     return allPaths
-  }
+  },
 }
 
 // console.log(module.exports.getPaths())
