@@ -1,9 +1,9 @@
 const getTickers = require('./getTickers')
 const delay = require('delay')
 const _ = require('lodash')
-const chalk = require('chalk');
+const chalk = require('chalk')
 const { getPaths } = require('./getPaths')
-const { paths } = require('./config');
+const { paths } = require('./config')
 
 
 
@@ -27,7 +27,7 @@ const main = async () => {
     } else if (diff.fromJump > 0.2) {
       console.log(chalk.yellow.bold(`${_.reverse(path)} is Prof for big ones: ${diff.fromJump}`))
     }
-    await delay(1000)
+    await delay(10000)
   }
 }
 
@@ -51,7 +51,7 @@ const getDiff = async (pathSymbols) => {
 
   return {
     fromMain: diff1,
-    fromJump: diff2
+    fromJump: diff2,
   }
 }
 

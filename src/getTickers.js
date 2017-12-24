@@ -1,7 +1,7 @@
 const { memoized: getTicker } = require('./getTicker')
 const delay = require('delay')
 
-const timeout = 1000
+const timeout = 100
 
 module.exports = async (pathSymbols) => {
   const res0 = await getTicker(pathSymbols[0])
