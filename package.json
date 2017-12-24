@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test:unit": "jest /*.test.js",
-    "test:unit:watch": "jest --watch /*.test.js"
+    "test:unit:watch": "jest --watch /*.test.js",
+    "start:arbitrageAnalysis": "node src/priceDiffAnalysis",
+    "start:downloadServer": "node src/public/index"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,8 @@
     "bitfinex-api-node": "^1.2.1",
     "chalk": "^2.3.0",
     "delay": "^2.0.0",
+    "express": "^4.16.2",
+    "json-2-csv": "^2.1.2",
     "lodash": "^4.17.4",
     "memoizee": "^0.4.11",
     "request-promise": "^4.2.2"
