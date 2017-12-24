@@ -15,6 +15,14 @@ try {
 }
 
 const merge = (...objects) => Object.assign({}, ...objects)
+const mergeIfProfitable = (main, ...rest) => {
+  // don't print offers if diff is smaller than 0.2 to save space
+  if (main.profitPerc < 0.2) {
+    return main
+  } else {
+    return merge(main, ...rest)
+  }
+}
 
 const iterateeOverSymbolPaths = async (symbolPaths) => {
   const state = startingState || []
@@ -25,7 +33,7 @@ const iterateeOverSymbolPaths = async (symbolPaths) => {
       const { fiatMainSideFiat, fiatSideMainFiat, orderBookSymbols } = await simulateTrade(symbolPaths[i])
       console.log(fiatMainSideFiat)
       console.log(fiatSideMainFiat)
-      state.push(merge(fiatMainSideFiat, orderBookSymbols), merge(fiatSideMainFiat, orderBookSymbols))
+      state.push(mergeIfProfitable(fiatMainSideFiat, orderBookSymbols), mergeIfProfitable(fiatSideMainFiat, orderBookSymbols))
       fs.writeFileSync(stateFile, JSON.stringify(state, null, 2))
       // wait for 10s before next call. RATE_LIMIT is [10, 60] depending on load
       await delay(10 * 1000)
