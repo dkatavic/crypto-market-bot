@@ -33,7 +33,7 @@ const iterateeOverSymbolPaths = async (symbolPaths) => {
       const { fiatMainSideFiat, fiatSideMainFiat, orderBookSymbols } = await simulateTrade(symbolPaths[i])
       console.log(fiatMainSideFiat)
       console.log(fiatSideMainFiat)
-      state.push(mergeIfProfitable(fiatMainSideFiat, orderBookSymbols), mergeIfProfitable(fiatSideMainFiat, orderBookSymbols))
+      state.push(mergeIfProfitable(fiatMainSideFiat, { orderBookSymbols }), mergeIfProfitable(fiatSideMainFiat, { orderBookSymbols }))
       // write to file once per minute
       if (i % 6 === 0) {
         fs.writeFileSync(stateFile, JSON.stringify(state, null, 2))
